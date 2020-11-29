@@ -17,7 +17,7 @@ before_install:
 script: "./gradlew clean build"
 
 before_deploy:
-  - zip -r practice-springboot2-webservice
+  - zip -r practice-springboot2-webservice *
   - mkdir -p deploy
   - mv practice-springboot2-webservice.zip deploy/practice-springboo2-webservice.zip
 
