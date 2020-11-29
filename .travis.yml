@@ -10,10 +10,27 @@ cache:
   directories:
     - '$HOME/.m2/repository'
     - '$HOME/.gradle'
-script: "./gradlew clean build"
 
 before_install:
   - chmod +x gradlew
+
+script: "./gradlew clean build"
+
+before_deploy:
+  - zip -r practice-springboot2-webservice
+  - mkdir -p deploy
+  - mv practice-springboot2-webservice.zip deploy/practice-springboo2-webservice.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: jeremy-practice-build
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-deployed: true
 
 # CI 실행 완료 시 메일로 알람
 notifications:
